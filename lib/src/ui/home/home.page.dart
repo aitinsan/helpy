@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:helpy/src/ui/chat/screens/HomeScreen.dart';
 import 'package:helpy/src/ui/common/app_colors.dart';
-
+import 'package:helpy/src/ui/home/forum.page.dart';
+import 'package:helpy/src/ui/home/main.page.dart';
+import 'package:helpy/src/ui/home/map.page.dart';
+import 'package:helpy/src/ui/home/profile.page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -12,106 +16,65 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  static List<Widget> _pages = <Widget>[
+    MainPage(),
+    ForumPage(),
+    ChatPage(),
+    MapPage(),
+    ProfilePage(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/logo.svg',
-                    width: 52,
-                    height: 52,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    'Helpy',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Добро пожаловать',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    'Здесь ты можешь чувствовать себя защищенно',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-              Image.asset('assets/images/initial.png'),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   CupertinoPageRoute(
-                        //     builder: ((context) => SurveyPage()),
-                        //   ),
-                        // );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(AppColors.pink),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            child: Text('Пройти опрос'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const Text(
-                        'Пропустить',
-                        style: TextStyle(color: AppColors.pink),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: AppColors.pink,
+        currentIndex: _selectedIndex,
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/images/Home.png',
+              color: _selectedIndex == 0 ? AppColors.pink : null,
+            ),
+            label: 'Главная',
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/message-circle.svg',
+              color: _selectedIndex == 1 ? AppColors.pink : null,
+            ),
+            label: 'Форум',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/mail.svg',
+              color: _selectedIndex == 2 ? AppColors.pink : null,
+            ),
+            label: 'Чаты',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/map-pin.svg',
+              color: _selectedIndex == 3 ? AppColors.pink : null,
+            ),
+            label: 'Карта',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/user.svg',
+              color: _selectedIndex == 4 ? AppColors.pink : null,
+            ),
+            label: 'Профиль',
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: _pages.elementAt(_selectedIndex),
       ),
     );
   }

@@ -125,7 +125,7 @@ class _SurveyListPageState extends State<SurveyListPage> {
         children: [
           _buildTest(
               question: 'Подвергались ли вы насилию ?', answers: ['Да', 'Нет']),
-          _buildTest(question: 'page2 ', answers: ['fdsa', 'fdsd', 'fds']),
+          // _buildTest(question: 'page2 ', answers: ['fdsa', 'fdsd', 'fds']),
         ],
       ),
     );
